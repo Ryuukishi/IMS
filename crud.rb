@@ -22,8 +22,8 @@ module Crud
         @row << price
         quantity = prompt.ask('Quantity', required: true)
         @row << quantity
-        inventory = Inventory.new(name, price, quantity)
-        inventory.print
+        @inventory = Inventory.new(name, price, quantity)
+        @inventory.print_item
         @rows << @row
         @row = []
         @id = Inventory.id
@@ -58,9 +58,11 @@ module Crud
                 when 1
                     price = prompt.ask('Price:', required: true)
                     @inventory_record[@id_record[name]][1] = price
+                    # @inventory.price = price
                 when 2
                     quantity = prompt.ask('Quantity:', required: true)
                     @inventory_record[@id_record[name]][2] = quantity
+                    # @inventory.quantity = quantity
             end
         end
     end
