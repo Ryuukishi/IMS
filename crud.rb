@@ -9,7 +9,7 @@ module Crud
     @headers = ["Name", "Price", "Quantity"]
     @row = []
     @rows = []
-    @id = Inventory.id
+    @id = nil
     @inventory_record = {}
     @id_record = {}
     
@@ -26,6 +26,7 @@ module Crud
         inventory.print
         @rows << @row
         @row = []
+        @id = Inventory.id
         @inventory_record[@id] = [name, price, quantity]
         @id_record[name] = @id
     end
@@ -42,7 +43,7 @@ module Crud
         name = prompt.ask('Item to change:', required: true)
         if ! @id_record.include? name
             puts "Item not in inventory!"
-            sleep(2)
+            sleep(1)
             self.update()
         end
         choices = [
@@ -50,16 +51,17 @@ module Crud
             {name: 'Change Quantity', value: 2},
             {name: 'Finish', value: 3}
             ]
-        answer = prompt.select('Select', choices, cycle: true)
-        case answer
-            when 1
-                price = prompt.ask('Price:', required: true)
-                @inventory_record[@id_record[name]][1] = price
-                self.save #need to rewrite the logic so that it takes the values from inventory_record and id_record instead of headers and rows...
-            when 2
-                quantity = prompt.ask('Quantity:', required: true)
-                @inventory_record[@id_record[name]][2] = quantity
-            when 3
-        end 
+        answer = nil
+        until answer == 3
+            answer = prompt.select('Select', choices, cycle: true)
+            case answer
+                when 1
+                    price = prompt.ask('Price:', required: true)
+                    @inventory_record[@id_record[name]][1] = price
+                when 2
+                    quantity = prompt.ask('Quantity:', required: true)
+                    @inventory_record[@id_record[name]][2] = quantity
+            end
+        end
     end
 end
