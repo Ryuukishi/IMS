@@ -18,7 +18,7 @@ class Start
         end
     end
 
-    def landing
+    def menu
         prompt = TTY::Prompt.new
         choices = [
             {name: 'Create Inventory List', value: 1},
@@ -43,35 +43,27 @@ class Start
                     Crud.create
                     next_answer = prompt.select('Add more?', next_choices)
                 end
-            Crud.save
-            @file_exist = true    
-            landing
+                Crud.save
+                @file_exist = true    
+                self.menu
             when 2
-                if @file_exists
-                    puts "File exists"
-                else
-                    puts "File doesn't exist"
-                    self.landing
-                end
+                Crud.update
+                self.menu
             when 3
                 if @file_exists
                     puts "File exists"
                 else
                     puts "File doesn't exist"
-                    self.landing
+                    self.menu
                 end
             when 4
-                if @file_exists
-                    puts "File exists"
-                else
-                    puts "File doesn't exist"
-                    self.landing
-                end
+                
             when 5                
         end
     end
 end
+
 font = TTY::Font.new(:standard)
 puts font.write('IMS')
 start = Start.new
-start.landing
+start.menu
