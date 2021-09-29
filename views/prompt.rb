@@ -32,24 +32,19 @@ module Prompt
                     Crud.create
                     next_answer = prompt.select('Add more?', next_choices)
                 end
+                #clears the screen
                 system("cls") || system("clear")
                 Crud.save
-                # @file_exist = true    
                 self.menu
             when 2
                 Crud.update
                 self.menu
             when 3
-                if File_check.exist
-                    puts "File exists"
-                else
-                    puts "File doesn't exist"
-                    self.menu
-                end
+                #Delete
             when 4
-                
+                p Crud:@inventory_record
             when 5    
-
+                #Exits
          end
 
     end
