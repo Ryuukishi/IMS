@@ -42,7 +42,7 @@ module Prompt
             when 3
                 #Delete
             when 4
-                p Crud:@inventory_record
+                #Display
             when 5    
                 #Exits
          end

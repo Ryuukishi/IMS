@@ -4,7 +4,7 @@ require 'csv'
 
 module Crud
 
-    attr_accessor :headers, :row, :rows, :id, :inventory_hash, :inventory_record
+    # attr_accessor :headers, :row, :rows, :id, :inventory_hash, :inventory_record
 
     @headers = ["Name", "Price", "Quantity"]
     @row = []
