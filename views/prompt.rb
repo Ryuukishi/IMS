@@ -1,11 +1,12 @@
 require 'tty-prompt'
 require_relative '../controller/file.rb'
 require_relative '../crud.rb'
+require_relative '../controller/validate.rb'
 
 module Prompt
 
     def self.menu
-
+        # system("cls") || system("clear")
         prompt = TTY::Prompt.new
         choices = [
         {name: 'Create Inventory List', value: 1},

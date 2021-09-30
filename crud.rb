@@ -1,6 +1,8 @@
 require_relative "./inventory.rb"
+require_relative './controller/validate.rb'
 require 'tty-prompt'
 require 'csv'
+require 'yaml'
 
 module Crud
 
@@ -14,13 +16,29 @@ module Crud
     @id_record = {}
     
 
+    def self.load
+        save_data = YAML.load(File.read("Inventory.yml"))
+    end
+
+
     def self.create
         prompt = TTY::Prompt.new
         name = prompt.ask('Item name:', required: true)
+        if @id_record.include? name
+            puts "Item already in inventory!"
+            sleep(1)
+            self.create()
+        end
         @row << name
-        price = prompt.ask('Price:', required: true, convert: :float)
+        price = prompt.ask('Price:', required: true) do |q|
+            q.validate(/^(?!0\d)\d*(\.\d+)?$/)
+            q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
+        end                     
         @row << price
-        quantity = prompt.ask('Quantity', required: true)
+        quantity = prompt.ask('Quantity', required: true)  do |q|
+            q.validate(/^(?!0\d)\d*$/)
+            q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
+        end
         @row << quantity
         @inventory = Inventory.new(name, price, quantity)
         @inventory.print_item
@@ -29,6 +47,10 @@ module Crud
         @id = Inventory.id
         @inventory_record[@id] = [name, price, quantity]
         @id_record[name] = @id
+        p @headers
+        p @row
+        p @rows
+        p @inventory_record
     end
 
     def self.save
@@ -58,11 +80,9 @@ module Crud
                 when 1
                     price = prompt.ask('Price:', required: true)
                     @inventory_record[@id_record[name]][1] = price
-                    # @inventory.price = price
                 when 2
                     quantity = prompt.ask('Quantity:', required: true)
                     @inventory_record[@id_record[name]][2] = quantity
-                    # @inventory.quantity = quantity
             end
         end
     end
