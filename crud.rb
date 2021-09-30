@@ -6,15 +6,14 @@ require 'yaml'
 
 module Crud
 
-    # attr_accessor :headers, :row, :rows, :id, :inventory_hash, :inventory_record
-
     @headers = ["Name", "Price", "Quantity"]
     @row = []
     @rows = []
+    @table = []
+    # @row << @name << @price << @quantity
     @id = nil
     @inventory_record = {}
     @id_record = {}
-    
 
     def self.load
         save_data = YAML.load(File.read("Inventory.yml"))
@@ -28,6 +27,9 @@ module Crud
             puts "Item already in inventory!"
             sleep(1)
             self.create()
+        else
+            @id = Inventory.id
+            @id_record[name] = @id
         end
         @row << name
         price = prompt.ask('Price:', required: true) do |q|
@@ -44,13 +46,7 @@ module Crud
         @inventory.print_item
         @rows << @row
         @row = []
-        @id = Inventory.id
         @inventory_record[@id] = [name, price, quantity]
-        @id_record[name] = @id
-        p @headers
-        p @row
-        p @rows
-        p @inventory_record
     end
 
     def self.save
@@ -86,4 +82,16 @@ module Crud
             end
         end
     end
+
+    def self.print_table
+        @table << @headers
+        @inventory_record.each do |key, value|
+        values = [value]
+        @table << values
+        end
+        table = TTY::Table.new(@table)
+        puts table.render(:ascii, alignment: [:center])
+        p @table
+    end
+
 end

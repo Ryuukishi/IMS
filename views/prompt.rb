@@ -27,7 +27,7 @@ module Prompt
             when 1 #create new instance of Inventory
                 Crud.create
                 next_choices = ['Add', 'Finish']
-                next_answer = nil
+                # next_answer = nil
                 next_answer = prompt.select('Add more?', next_choices)
                 until next_answer == 'Finish'
                     Crud.create
@@ -42,8 +42,8 @@ module Prompt
                 self.menu
             when 3
                 #Delete
-            when 4
-                #Display
+            when 4 #Display
+                Crud.print_table
             when 5    
                 #Exits
          end
