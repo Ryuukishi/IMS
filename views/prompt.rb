@@ -1,7 +1,6 @@
 require 'tty-prompt'
 require_relative '../controller/file.rb'
 require_relative '../crud.rb'
-require_relative '../controller/validate.rb'
 require_relative './screen.rb'
 
 module Prompt
@@ -15,19 +14,20 @@ module Prompt
         {name: 'Update', value: 2},
         {name: 'Delete', value: 3},
         {name: 'Display', value: 4},
-        {name: 'Export to CSV', value: 5},
+        {name: 'Export CSV', value: 5},
         {name: 'Quit', value: 6}
         ]
 
-        if ! File_check.exist
-        choices[1][:disabled] = "   * (No inventory) *"
-        choices[2][:disabled] = "   * (No inventory) *"
-        choices[3][:disabled] = "  * (No inventory) *"
+        if ! Files.exist
+        choices[1][:disabled] = "       * (No inventory) *"
+        choices[2][:disabled] = "       * (No inventory) *"
+        choices[3][:disabled] = "      * (No inventory) *"
+        choices[4][:disabled] = "   * (No inventory) *"
         end
 
         answer = prompt.select('Select', choices, cycle: true)
         case answer
-            when 1 #create new instance of Inventory
+            when 1 # Create
                 Screen.title
                 Crud.create
                 next_choices = ['Add', 'Finish']
@@ -37,31 +37,30 @@ module Prompt
                     Crud.create
                     next_answer = prompt.select('Add more?', next_choices)
                 end
-                #clears the screen
                 Screen.title
                 Crud.save
                 self.menu
-            when 2 #Update
+            when 2 # Update
                 Screen.title
                 Crud.update
+                Crud.save
                 self.menu
-            when 3 #Delete
+            when 3 # Delete
                 Screen.title
                 Crud.delete
                 self.menu
-            when 4 #Display
+            when 4 # Display
                 Screen.title
                 Crud.display_table
                 answer = prompt.select('',['Back'])
                 self.menu
-            when 5 #Export
+            when 5 # Export
                 Screen.title
                 Crud.export
                 puts "Exported to 'Inventory.csv'"
                 sleep(1)
                 self.menu
-            when 6
-                #exits
+            when 6 # Exit
          end
 
     end

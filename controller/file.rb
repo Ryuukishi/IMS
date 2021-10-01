@@ -1,7 +1,7 @@
-module File_check
+module Files
 
     def self.exist
-        (File.exist?("./Inventory.csv"))
+        (File.exist?("Inventory.csv"))
     end
 
 end

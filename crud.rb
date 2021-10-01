@@ -8,18 +8,22 @@ require 'yaml'
 module Crud
 
     @headers = ["Name", "Price", "Quantity"]
-    @row = []
-    @rows = []
+    @value = []
+    @values = []
     @table = []
-    # @row << @name << @price << @quantity
     @id = nil
     @inventory_record = {}
     @id_record = {}
 
     def self.load
-        save_data = YAML.load(File.read("Inventory.yml"))
+        @inventory_record = YAML.load(File.read("inventory.yml"))
+        @id_record = YAML.load(File.read("id.yml"))
     end
 
+    def self.save
+        File.open("inventory.yml", "w") { |file| file.write(@inventory_record.to_yaml) }
+        File.open("id.yml", "w") { |file| file.write(@id_record.to_yaml) }
+    end
 
     def self.create
         prompt = TTY::Prompt.new
@@ -32,34 +36,23 @@ module Crud
             @id = Inventory.id
             @id_record[name] = @id
         end
-        @row << name
+        @value << name
         price = prompt.ask('Price:', required: true) do |q|
             q.validate(/^(?!0\d)\d*(\.\d+)?$/)
             q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
         end                     
-        @row << price
+        @value << price
         quantity = prompt.ask('Quantity', required: true)  do |q|
             q.validate(/^(?!0\d)\d*$/)
             q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
         end
-        @row << quantity
+        @value << quantity
         @inventory = Inventory.new(name, price, quantity)
-        Display.table(@headers, [@row])
-        @rows << @row
-        @row = []
+        Display.table(@headers, [@value])
+        @values << @value
+        @value = []
         @inventory_record[@id] = [name, price, quantity]
     end
-
-    def self.save
-        output = [@headers]
-        @inventory_record.each {|key, value|
-        output << value
-        }
-        CSV.open('Inventory.csv', 'w') do |csv|
-            output.each { |arr| csv << arr }
-        end
-    end
-
 
     def self.export
         output = [@headers]
@@ -95,7 +88,6 @@ module Crud
                     quantity = prompt.ask('Quantity:', required: true)
                     @inventory_record[@id_record[name]][2] = quantity
                 when 3
-                     self.save
             end
         end
     end
@@ -119,7 +111,5 @@ module Crud
         values << value
         }
         Display.table(@headers, values)
-        # p @inventory_record
-        # p @id_record
     end
 end

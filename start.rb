@@ -13,7 +13,5 @@ class Start
     end
 end
 
-# font = TTY::Font.new(:standard)
-# puts font.write('IMS')
 start = Start.new
 start.menu
