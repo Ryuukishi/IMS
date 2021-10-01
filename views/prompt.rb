@@ -17,21 +17,22 @@ module Prompt
         {name: 'Export CSV', value: 5},
         {name: 'Quit', value: 6}
         ]
-
-        if ! Files.exist
-        choices[1][:disabled] = "       * (No inventory) *"
-        choices[2][:disabled] = "       * (No inventory) *"
-        choices[3][:disabled] = "      * (No inventory) *"
-        choices[4][:disabled] = "   * (No inventory) *"
+        
+        if Files.exist
+            Crud.load
         end
-
+        if Files.empty
+            choices[1][:disabled] = "       * (No inventory) *"
+            choices[2][:disabled] = "       * (No inventory) *"
+            choices[3][:disabled] = "      * (No inventory) *"
+            choices[4][:disabled] = "   * (No inventory) *"
+        end
         answer = prompt.select('Select', choices, cycle: true)
         case answer
             when 1 # Create
                 Screen.title
                 Crud.create
                 next_choices = ['Add', 'Finish']
-                # next_answer = nil
                 next_answer = prompt.select('Add more?', next_choices)
                 until next_answer == 'Finish'
                     Crud.create
@@ -48,6 +49,7 @@ module Prompt
             when 3 # Delete
                 Screen.title
                 Crud.delete
+                Crud.save
                 self.menu
             when 4 # Display
                 Screen.title
