@@ -2,18 +2,21 @@ require 'tty-prompt'
 require_relative '../controller/file.rb'
 require_relative '../crud.rb'
 require_relative '../controller/validate.rb'
+require_relative './screen.rb'
 
 module Prompt
 
     def self.menu
-        # system("cls") || system("clear")
+        # Screen.clear
+        Screen.title
         prompt = TTY::Prompt.new
         choices = [
         {name: 'Create Inventory List', value: 1},
         {name: 'Update', value: 2},
         {name: 'Delete', value: 3},
         {name: 'Display', value: 4},
-        {name: 'Quit', value: 5}
+        {name: 'Export to CSV', value: 5},
+        {name: 'Quit', value: 6}
         ]
 
         if ! File_check.exist
@@ -25,6 +28,7 @@ module Prompt
         answer = prompt.select('Select', choices, cycle: true)
         case answer
             when 1 #create new instance of Inventory
+                Screen.title
                 Crud.create
                 next_choices = ['Add', 'Finish']
                 # next_answer = nil
@@ -34,18 +38,30 @@ module Prompt
                     next_answer = prompt.select('Add more?', next_choices)
                 end
                 #clears the screen
-                system("cls") || system("clear")
+                Screen.title
                 Crud.save
                 self.menu
-            when 2
+            when 2 #Update
+                Screen.title
                 Crud.update
                 self.menu
-            when 3
-                #Delete
+            when 3 #Delete
+                Screen.title
+                Crud.delete
+                self.menu
             when 4 #Display
-                Crud.print_table
-            when 5    
-                #Exits
+                Screen.title
+                Crud.display_table
+                answer = prompt.select('',['Back'])
+                self.menu
+            when 5 #Export
+                Screen.title
+                Crud.export
+                puts "Exported to 'Inventory.csv'"
+                sleep(1)
+                self.menu
+            when 6
+                #exits
          end
 
     end

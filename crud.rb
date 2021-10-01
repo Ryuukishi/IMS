@@ -1,5 +1,6 @@
 require_relative "./inventory.rb"
 require_relative './controller/validate.rb'
+require_relative './views/display.rb'
 require 'tty-prompt'
 require 'csv'
 require 'yaml'
@@ -26,7 +27,7 @@ module Crud
         if @id_record.include? name
             puts "Item already in inventory!"
             sleep(1)
-            self.create()
+            self.create
         else
             @id = Inventory.id
             @id_record[name] = @id
@@ -43,14 +44,28 @@ module Crud
         end
         @row << quantity
         @inventory = Inventory.new(name, price, quantity)
-        @inventory.print_item
+        Display.table(@headers, [@row])
         @rows << @row
         @row = []
         @inventory_record[@id] = [name, price, quantity]
     end
 
     def self.save
-        output = [@headers] + @rows
+        output = [@headers]
+        @inventory_record.each {|key, value|
+        output << value
+        }
+        CSV.open('Inventory.csv', 'w') do |csv|
+            output.each { |arr| csv << arr }
+        end
+    end
+
+
+    def self.export
+        output = [@headers]
+        @inventory_record.each {|key, value|
+        output << value
+        }
         CSV.open('Inventory.csv', 'w') do |csv|
             output.each { |arr| csv << arr }
         end
@@ -79,19 +94,32 @@ module Crud
                 when 2
                     quantity = prompt.ask('Quantity:', required: true)
                     @inventory_record[@id_record[name]][2] = quantity
+                when 3
+                     self.save
             end
         end
     end
 
-    def self.print_table
-        @table << @headers
-        @inventory_record.each do |key, value|
-        values = [value]
-        @table << values
+    def self.delete
+        prompt = TTY::Prompt.new
+        name = prompt.ask('Item name:', required: true)
+        if !@id_record.include? name
+            puts "Item not in inventory!"
+            sleep(1)
+            self.delete
+        else
+            @inventory_record.delete @id_record[name]
+            @id_record.delete name
         end
-        table = TTY::Table.new(@table)
-        puts table.render(:ascii, alignment: [:center])
-        p @table
     end
 
+    def self.display_table
+        values = []
+        @inventory_record.each { |key, value|
+        values << value
+        }
+        Display.table(@headers, values)
+        # p @inventory_record
+        # p @id_record
+    end
 end

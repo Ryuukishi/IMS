@@ -1,11 +1,12 @@
 module Screen
 
-	def title
+	def self.title
+		system("cls") || system("clear")
 		font = TTY::Font.new(:standard)
 		puts font.write('IMS')
 	end
 	
-	def clear
+	def self.clear
 		system("cls") || system("clear")
 	end
 end
