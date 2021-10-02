@@ -33,7 +33,7 @@ module Crud
             q.modify :strip, :chomp
         end
         if @id_record.include? name
-            puts "Item already in inventory!"
+            prompt.warn("Item already in inventory!")
             sleep(1)
             self.create
         else
@@ -77,7 +77,7 @@ module Crud
         q.modify :strip, :chomp
         end
         if ! @id_record.include? name # Returns error if item not in inventory
-            puts "Item not in inventory!"
+            prompt.warn("Item already in inventory!")
             sleep(1)
             self.update()
         end
@@ -111,13 +111,16 @@ module Crud
     end
 
     def self.delete
+        Screen.title
         self.display_table
         prompt = TTY::Prompt.new
         name = prompt.ask('Item name:', required: true) do |q|
             q.modify :strip, :chomp
         end
         if !@id_record.include? name
-            puts "Item not in inventory!"
+            Screen.title
+            self.display_table
+            prompt.warn("Item already in inventory!")
             sleep(1)
             self.delete
         else
