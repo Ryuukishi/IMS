@@ -1,6 +1,6 @@
-require_relative "./inventory.rb"
-require_relative './controller/validate.rb'
-require_relative './views/display.rb'
+require_relative "../model/inventory.rb"
+require_relative './validate.rb'
+require_relative '../views/display.rb'
 require 'tty-prompt'
 require 'csv'
 require 'yaml'

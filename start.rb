@@ -1,6 +1,6 @@
 require 'tty-prompt'
 require 'tty-font'
-require_relative './crud.rb'
+require_relative './controller/crud.rb'
 require_relative './views/prompt.rb'
 require_relative './views/screen.rb'
 

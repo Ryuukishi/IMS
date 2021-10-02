@@ -1,7 +1,7 @@
 require 'tty-prompt'
 require_relative '../controller/file.rb'
-require_relative '../crud.rb'
-require_relative './screen.rb'
+require_relative '../controller/crud.rb'
+require_relative '../views/screen.rb'
 
 module Prompt
 
