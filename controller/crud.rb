@@ -40,13 +40,13 @@ module Crud
             @id = Inventory.id
             @id_record[name] = @id
             @value << name
-            price = prompt.ask('Price:', required: true) do |q|
+            price = prompt.ask('Price:', required: true, convert: :float) do |q|
                 q.modify :strip, :chomp
                 q.validate(/^(?!0\d)\d*(\.\d+)?$/)
                 q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
                 end                     
             @value << price
-            quantity = prompt.ask('Quantity', required: true)  do |q|
+            quantity = prompt.ask('Quantity', required: true, convert: :float)  do |q|
                 q.modify :strip, :chomp
                 q.validate(/^(?!0\d)\d*$/)
                 q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
