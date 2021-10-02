@@ -1,4 +1,3 @@
-require 'tty-table'
 require 'securerandom'
 class Inventory
     

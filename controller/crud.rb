@@ -12,22 +12,21 @@ module Crud
     @headers = ["Name", "Price", "Quantity"]
     @value = []
     @values = []
-    @table = []
     @id = nil
     @inventory_record = {}
     @id_record = {}
 
-    def self.load
+    def self.load # Load saved data (if it exists)
         @inventory_record = YAML.load(File.read("inventory.yml"))
         @id_record = YAML.load(File.read("id.yml"))
     end
 
-    def self.save
+    def self.save # saves inventory data to YAML file.
         File.open("inventory.yml", "w") { |file| file.write(@inventory_record.to_yaml) }
         File.open("id.yml", "w") { |file| file.write(@id_record.to_yaml) }
     end
 
-    def self.create
+    def self.create # Creates a new Inventory instance and saves the details.
         prompt = TTY::Prompt.new
         name = prompt.ask('Item name:', required: true) do |q|
             q.modify :strip, :chomp
