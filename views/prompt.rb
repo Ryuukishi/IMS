@@ -18,15 +18,15 @@ module Prompt
         {name: 'Quit', value: 6}
         ]
         
-        if Files.exist
+        if Files.exist && ! Files.empty
             Crud.load
-        end
-        if Files.empty
+        else
             choices[1][:disabled] = "       * (No inventory) *"
             choices[2][:disabled] = "       * (No inventory) *"
             choices[3][:disabled] = "      * (No inventory) *"
             choices[4][:disabled] = "   * (No inventory) *"
         end
+
         answer = prompt.select('Select', choices, cycle: true)
         case answer
             when 1 # Create

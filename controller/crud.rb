@@ -1,6 +1,7 @@
 require_relative "../model/inventory.rb"
 require_relative './validate.rb'
 require_relative '../views/display.rb'
+require_relative '../views/prompt.rb'
 require 'tty-prompt'
 require 'csv'
 require 'yaml'
@@ -67,11 +68,11 @@ module Crud
     def self.update
         prompt = TTY::Prompt.new
         name = prompt.ask('Item to change:', required: true)
-        # if ! @id_record.include? name
-        #     puts "Item not in inventory!"
-        #     sleep(1)
-        #     self.update()
-        # end
+        if ! @id_record.include? name # Returns error if item not in inventory
+            puts "Item not in inventory!"
+            sleep(1)
+            self.update()
+        end
         choices = [
             {name: 'Change Price', value: 1},
             {name: 'Change Quantity', value: 2},
@@ -82,17 +83,13 @@ module Crud
             answer = prompt.select('Select', choices, cycle: true)
             case answer
                 when 1
-                    begin # Error handling to rescue NoMethodError when the user tries to update an item that does not exit in the inventory.
-                    price = prompt.ask('Price:', required: true)
+                    price = prompt.ask('Price:', required: true, convert: :float)
                     @inventory_record[@id_record[name]][1] = price
-                    rescue NoMethodError
-                        puts "Item doesn't exist"
-                        self.update
-                    end
                 when 2
-                    quantity = prompt.ask('Quantity:', required: true)
+                    quantity = prompt.ask('Quantity:', required: true, convert: :integer)
                     @inventory_record[@id_record[name]][2] = quantity
                 when 3
+                    Prompt.menu
             end
         end
     end
