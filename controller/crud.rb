@@ -1,8 +1,8 @@
 require_relative "../model/inventory.rb"
-require_relative './validate.rb'
 require_relative '../views/display.rb'
 require_relative '../views/prompt.rb'
 require_relative '../views/screen.rb'
+require 'tty-table'
 require 'tty-prompt'
 require 'csv'
 require 'yaml'
@@ -31,11 +31,11 @@ module Crud
         name = prompt.ask('Item name:', required: true) do |q|
             q.modify :strip, :chomp
         end
-        if @id_record.include? name
+        if @id_record.include? name # If item already exists, start again from the beginning
             prompt.warn("Item already in inventory!")
             sleep(1)
             self.create
-        else
+        else # Else, prompt user for information and saves it
             @id = Inventory.id
             @id_record[name] = @id
             @value << name
@@ -59,7 +59,7 @@ module Crud
         end
     end
 
-    def self.export
+    def self.export # Exports data to .CSV file.
         output = [@headers]
         @inventory_record.each {|key, value|
         output << value
@@ -69,7 +69,7 @@ module Crud
         end
     end
 
-    def self.update
+    def self.update # Updates the price and quantity of an item.
         self.display_table
         prompt = TTY::Prompt.new
         name = prompt.ask('Item to change:', required: true) do |q|
@@ -86,7 +86,7 @@ module Crud
             {name: 'Finish', value: 3}
             ]
         answer = nil
-        until answer == 3
+        until answer == 3 # Loops until user selects 'Finish' from the menu and goes back to the main menu.
             answer = prompt.select('Select', choices, cycle: true)
             case answer
                 when 1
@@ -109,7 +109,7 @@ module Crud
         end
     end
 
-    def self.delete
+    def self.delete # Deletes an item from the inventory
         Screen.title
         self.display_table
         prompt = TTY::Prompt.new
@@ -119,7 +119,7 @@ module Crud
         if !@id_record.include? name
             Screen.title
             self.display_table
-            prompt.warn("Item already in inventory!")
+            prompt.warn("Item not in inventory!")
             sleep(1)
             self.delete
         else
@@ -128,7 +128,7 @@ module Crud
         end
     end
 
-    def self.display_table
+    def self.display_table # Displays a table with all the items currently stored in the inventory.
         values = []
         @inventory_record.each { |key, value|
         values << value
