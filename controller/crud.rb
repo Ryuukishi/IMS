@@ -2,6 +2,7 @@ require_relative "../model/inventory.rb"
 require_relative './validate.rb'
 require_relative '../views/display.rb'
 require_relative '../views/prompt.rb'
+require_relative '../views/screen.rb'
 require 'tty-prompt'
 require 'csv'
 require 'yaml'
@@ -94,11 +95,15 @@ module Crud
                         q.modify :strip, :chomp
                     end
                     @inventory_record[@id_record[name]][1] = price
+                    Screen.title
+                    self.display_table
                 when 2
                     quantity = prompt.ask('Quantity:', required: true, convert: :integer) do |q|
                         q.modify :strip, :chomp
                     end
                     @inventory_record[@id_record[name]][2] = quantity
+                    Screen.title
+                    self.display_table
                 when 3
                     Prompt.menu
             end
