@@ -6,7 +6,6 @@ require_relative '../views/screen.rb'
 module Prompt
 
     def self.menu
-        # Screen.clear
         Screen.title
         prompt = TTY::Prompt.new
         choices = [
