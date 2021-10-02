@@ -46,7 +46,7 @@ module Crud
                 q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
                 end                     
             @value << price
-            quantity = prompt.ask('Quantity', required: true, convert: :float)  do |q|
+            quantity = prompt.ask('Quantity', required: true, convert: :integer)  do |q|
                 q.modify :strip, :chomp
                 q.validate(/^(?!0\d)\d*$/)
                 q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
