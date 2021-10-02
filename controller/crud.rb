@@ -28,7 +28,9 @@ module Crud
 
     def self.create
         prompt = TTY::Prompt.new
-        name = prompt.ask('Item name:', required: true)
+        name = prompt.ask('Item name:', required: true) do |q|
+            q.modify :strip, :chomp
+        end
         if @id_record.include? name
             puts "Item already in inventory!"
             sleep(1)
@@ -36,23 +38,25 @@ module Crud
         else
             @id = Inventory.id
             @id_record[name] = @id
+            @value << name
+            price = prompt.ask('Price:', required: true) do |q|
+                q.modify :strip, :chomp
+                q.validate(/^(?!0\d)\d*(\.\d+)?$/)
+                q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
+                end                     
+            @value << price
+            quantity = prompt.ask('Quantity', required: true)  do |q|
+                q.modify :strip, :chomp
+                q.validate(/^(?!0\d)\d*$/)
+                q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
+                end
+            @value << quantity
+            @inventory = Inventory.new(name, price, quantity)
+            Display.table(@headers, [@value])
+            @values << @value
+            @value = []
+            @inventory_record[@id] = [name, price, quantity]
         end
-        @value << name
-        price = prompt.ask('Price:', required: true) do |q|
-            q.validate(/^(?!0\d)\d*(\.\d+)?$/)
-            q.messages[:valid?] = "Must be a positive number"   # raise error if price is not a positive integer or float
-        end                     
-        @value << price
-        quantity = prompt.ask('Quantity', required: true)  do |q|
-            q.validate(/^(?!0\d)\d*$/)
-            q.messages[:valid?] = "Must be a positive number"   # raise error if quantity is not a positive integer
-        end
-        @value << quantity
-        @inventory = Inventory.new(name, price, quantity)
-        Display.table(@headers, [@value])
-        @values << @value
-        @value = []
-        @inventory_record[@id] = [name, price, quantity]
     end
 
     def self.export
@@ -66,8 +70,11 @@ module Crud
     end
 
     def self.update
+        self.display_table
         prompt = TTY::Prompt.new
-        name = prompt.ask('Item to change:', required: true)
+        name = prompt.ask('Item to change:', required: true) do |q|
+        q.modify :strip, :chomp
+        end
         if ! @id_record.include? name # Returns error if item not in inventory
             puts "Item not in inventory!"
             sleep(1)
@@ -83,10 +90,14 @@ module Crud
             answer = prompt.select('Select', choices, cycle: true)
             case answer
                 when 1
-                    price = prompt.ask('Price:', required: true, convert: :float)
+                    price = prompt.ask('Price:', required: true, convert: :float) do |q|
+                        q.modify :strip, :chomp
+                    end
                     @inventory_record[@id_record[name]][1] = price
                 when 2
-                    quantity = prompt.ask('Quantity:', required: true, convert: :integer)
+                    quantity = prompt.ask('Quantity:', required: true, convert: :integer) do |q|
+                        q.modify :strip, :chomp
+                    end
                     @inventory_record[@id_record[name]][2] = quantity
                 when 3
                     Prompt.menu
@@ -95,8 +106,11 @@ module Crud
     end
 
     def self.delete
+        self.display_table
         prompt = TTY::Prompt.new
-        name = prompt.ask('Item name:', required: true)
+        name = prompt.ask('Item name:', required: true) do |q|
+            q.modify :strip, :chomp
+        end
         if !@id_record.include? name
             puts "Item not in inventory!"
             sleep(1)
