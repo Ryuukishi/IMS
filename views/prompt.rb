@@ -61,6 +61,7 @@ module Prompt
       sleep(1)
       self.menu
     when 6 # Exit
+      exit
     end
   end
 end

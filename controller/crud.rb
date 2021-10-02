@@ -69,13 +69,14 @@ module Crud
   end
 
   def self.update # Updates the price and quantity of an item.
+    Screen.title
     self.display_table
     prompt = TTY::Prompt.new
     name = prompt.ask('Item to change:', required: true) do |q|
       q.modify :strip, :chomp
     end
     if !@id_record.include? name # Returns error if item not in inventory
-      prompt.warn("Item already in inventory!")
+      prompt.warn("Item not in inventory!")
       sleep(1)
       self.update()
     end
