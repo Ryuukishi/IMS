@@ -94,6 +94,7 @@ module Crud
           q.modify :strip, :chomp
         end
         @inventory_record[@id_record[name]][1] = price
+        self.save
         Screen.title
         self.display_table
       when 2
@@ -101,6 +102,7 @@ module Crud
           q.modify :strip, :chomp
         end
         @inventory_record[@id_record[name]][2] = quantity
+        self.save
         Screen.title
         self.display_table
       when 3
