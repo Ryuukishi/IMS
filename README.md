@@ -6,6 +6,22 @@
 
 https://github.com/Ryuukishi/IMS
 
+
+
+## Installation
+
+
+
+1. Install Ruby by following the [official documentation](https://www.ruby-lang.org/en/documentation/installation/). Ruby versions 2.4.0 and above are required.
+2. If you have Git installed on your machine, you can clone this repository using `git clone https://github.com/Ryuukishi/IMS.git`
+3. If you don't have Git, go to the top of this page, click `Code` → `Download ZIP` and extract the archive onto your machine. 
+4. Navigate to the `src` directory and install the gems required to run this application by either running the bash script `./INSTALL.sh` or manually installing them using bundler:
+
+   - First, install bundler if it isn't already installed using `gem install bundler`
+   - And then run the command `bundle install` in the source directory to install the required gems
+5. Finally, run the app by using `ruby start.rb`. Voila!
+   
+
 ## Statement of purpose and scope
 
 IMS stands for Inventory Management System and it’s a simple terminal app that allows users to manage and store their inventory. IMS is a CRUD application meaning that users can Create, Read, Update, and Delete data within the app. The target audience for this app are mainly small businesses and individuals. IMS can be seen as a free and lightweight alternative to professional accounting software such as MYOB. IMS differentiates itself by having an easy-to-use and intuitive interface without all the clutter. There won't be any buttons you have to click or graphical menus you have to navigate, instead all a user needs to do is use their keyboard to select the relevant option from the menu and input relevant information. According to MYOB's website, their lowest tier of accounting software costs around $30/month. If the individual or small business is a reporting entity, then this might be a good option, but if one just wants a simple app to track their inventory then I believe that IMS is a good alternative. 
@@ -133,27 +149,6 @@ Users can see the entire list of items saved in their inventory by choosing the 
 
 
 
-
-
-## Installation
-
-
-
-1. Install Ruby by following the [official documentation](https://www.ruby-lang.org/en/documentation/installation/). Ruby versions 2.4.0 and above are required.
-
-2. If you have Git installed on your machine, you can clone this repository using `git clone https://github.com/Ryuukishi/IMS.git`
-
-3. If you don't have Git, go to the top of this page, click `Code` → `Download ZIP` and extract the archive onto your machine. 
-
-4.  Navigate to the `src` directory and install the gems required to run this application by either running the bash script `./INSTALL.sh` or manually installing them using bundler:
-
-   - First, install bundler if it isn't already installed using `gem install bundler`
-   - And then run the command `bundle install` in the source directory to install the required gems
-
-5. Finally, run the app by using `ruby start.rb`. Voila!
-
-   
-
 ## Manual Testing
 
 
@@ -172,16 +167,5 @@ Users can see the entire list of items saved in their inventory by choosing the 
 |                  Export                   |                  Exporting data to CSV file                  | CSV file should be outputted correctly and should display correctly when viewed using a text editor and Excel. |             As expected              |         N         |                                                              |
 |                   Save                    |                       Update save data                       |     Inventory data is saved after every CRUD operation.      |             As expected              |         N         | As mentioned above, data wasn't saved after updating an item's price and quantity but this has since been fixed. |
 |                   Load                    |                        Load save data                        |            Loads save data if it exists/not empty            |             As expected              |         N         |                                                              |
-
-
-
-
-
-
-
-
-
-
-
 
 
