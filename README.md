@@ -2,6 +2,10 @@
 
 
 
+## Github Repository
+
+https://github.com/Ryuukishi/IMS
+
 ## Statement of purpose and scope
 
 IMS stands for Inventory Management System and it’s a simple terminal app that allows users to manage and store their inventory. IMS is a CRUD application meaning that users can Create, Read, Update, and Delete data within the app. The target audience for this app are mainly small businesses and individuals. IMS can be seen as a free and lightweight alternative to professional accounting software such as MYOB. IMS differentiates itself by having an easy-to-use and intuitive interface without all the clutter. There won't be any buttons you have to click or graphical menus you have to navigate, instead all a user needs to do is use their keyboard to select the relevant option from the menu and input relevant information. According to MYOB's website, their lowest tier of accounting software costs around $30/month. If the individual or small business is a reporting entity, then this might be a good option, but if one just wants a simple app to track their inventory then I believe that IMS is a good alternative. 
@@ -15,11 +19,11 @@ IMS stands for Inventory Management System and it’s a simple terminal app that
    
    
 
-   ![menu](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\menu.png)
+   ![menu](./docs/screenshots/menu.png)
 
    
 
-   ![menu - disabled](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\menu - disabled.png)
+   ![menu - disabled](./docs/screenshots/menu - disabled.png)
 
 
 
@@ -29,7 +33,7 @@ IMS stands for Inventory Management System and it’s a simple terminal app that
 
 
 
-![table](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\table.png)
+![table](./docs/screenshots/table.png)
 
 
 
@@ -49,7 +53,7 @@ When first running the app, the user will be brought to the main menu (see above
 
 To add inventory, users need to select `Create inventory list` from the menu and then enter the name of the item they wish to add.
 
-![add_item](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\add_item.png)
+![add_item](./docs/screenshots/add_item.png)
 
 
 
@@ -57,13 +61,13 @@ Users then need to add the price. Price needs to be a positive number so inputti
 
 
 
-![price_error](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\price_error.png)
+![price_error](./docs/screenshots/price_error.png)
 
 
 
 Once an item is added, a table will be displayed summarising the details of the item as a table and will ask the user whether they would like to add another item or finish and return to the main menu.
 
-![add_item_success](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\add_item_success.png)
+![add_item_success](./docs/screenshots/add_item_success.png)
 
 
 
@@ -71,7 +75,7 @@ Next, the user has the option to update or delete items from the inventory. If a
 
 
 
-![delete_error](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\delete_error.png)
+![delete_error](./docs/screenshots/delete_error.png)
 
 
 
@@ -79,7 +83,7 @@ When a user updates an item, they can choose to update the price or the quantity
 
 
 
-![item_update](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\item_update.png)
+![item_update](./docs/screenshots/item_update.png)
 
 
 
@@ -89,11 +93,11 @@ Once item are added into the inventory, the user can export the data as a CSV fi
 
 
 
-![export](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\export.png)
+![export](./docs/screenshots/export.png)
 
 
 
-![csv](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\csv.png)
+![csv](./docs/screenshots/csv.png)
 
 
 
@@ -105,7 +109,17 @@ Users can see the entire list of items saved in their inventory by choosing the 
 
 
 
-![display](C:\Users\richa\Documents\GitHub\coderacademy\IMS\screenshots\display.png)
+![display](./docs/screenshots/display.png)
+
+
+
+
+
+
+
+## Flowchart
+
+![Flowchart](/docs/screenshots/Flowchart.png)
 
 
 
