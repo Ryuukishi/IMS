@@ -145,7 +145,7 @@ Users can see the entire list of items saved in their inventory by choosing the 
 
 3. If you don't have Git, go to the top of this page, click `Code` → `Download ZIP` and extract the archive onto your machine. 
 
-4.  Navigate to the source directory and install the gems required to run this application by either running the bash script `./INSTALL.sh` or manually installing them using bundler:
+4.  Navigate to the `src` directory and install the gems required to run this application by either running the bash script `./INSTALL.sh` or manually installing them using bundler:
 
    - First, install bundler if it isn't already installed using `gem install bundler`
    - And then run the command `bundle install` in the source directory to install the required gems
