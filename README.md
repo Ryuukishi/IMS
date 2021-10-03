@@ -127,7 +127,7 @@ Users can see the entire list of items saved in their inventory by choosing the 
 
 
 
-
+![Trello](.\docs\screenshots\Trello.png)
 
 
 
